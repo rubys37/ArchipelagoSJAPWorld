@@ -12,7 +12,7 @@ class StrawberryJamWorld(World):
     Strawberry Jam is a mod for the game Celeste, featuring 5 lobbies and 116 custom maps.
     """
 
-    game = "StrawberryJam"
+    game = "Strawberry Jam"
 
     options_dataclass = strawberryjam_options.APQuestOptions
     options: strawberryjam_options.APQuestOptions

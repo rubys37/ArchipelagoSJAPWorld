@@ -1,24 +1,13 @@
 from __future__ import annotations
-
 from typing import TYPE_CHECKING
-
 from BaseClasses import Item, ItemClassification
+from pickle import load
 
 if TYPE_CHECKING:
     from .world import APQuestWorld
 
-# Every item must have a unique integer ID associated with it.
-# We will have a lookup from item name to ID here that, in world.py, we will import and bind to the world class.
-# Even if an item doesn't exist on specific options, it must be present in this lookup.
-ITEM_NAME_TO_ID = {
-    "Key": 1,
-    "Sword": 2,
-    "Shield": 3,
-    "Hammer": 4,
-    "Health Upgrade": 5,
-    "Confetti Cannon": 6,
-    "Math Trap": 7,
-}
+with open()
+ITEM_NAME_TO_ID = load()
 
 # Items should have a defined default classification.
 # In our case, we will make a dictionary from item name to classification.
@@ -35,8 +24,8 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
 
 # Each Item instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Item class and override the "game" field.
-class APQuestItem(Item):
-    game = "APQuest"
+class SJAPItem(Item):
+    game = "Strawberry Jam"
 
 
 # Ontop of our regular itempool, our world must be able to create arbitrary amounts of filler as requested by core.
