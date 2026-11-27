@@ -1,6 +1,12 @@
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from Options import Toggle, Choice, Range, OptionGroup, PerGameCommonOptions, OptionSet
+import pickle
+from pathlib import Path
+
+if TYPE_CHECKING:
+    from .world import StrawberryJamWorld
 
 
 class GoalCondition(Choice):
@@ -75,11 +81,11 @@ class ExcludeMaps(OptionSet):
     The maps that you would like to exclude from the world. Enter any map name here.
     """
     display_name = "Excluded Maps"
-    valid_keys = {['Prologue', 'Library', 'ForestPath', 'Driveway', 'AzureCaverns', 'CassetteCliffs', 'Soap', 'LoopyLagoon', 'OvertheCity', 'Troposphere', 'SwitchtubeVista', 'PotentialforAnything', 'AGiftFromtheStars', 'CollapsingSkyline', 'StrawberryOrchard', 'MidnightSpire', 'paint', 'SeeingisBelieving', 'Dropzle', 'RoseGarden', 'Treehive', 'TheSqueeze', 'CoresakenCity', 'BlueberryBay', 
+    valid_keys = {'ForestPath', 'Driveway', 'AzureCaverns', 'CassetteCliffs', 'Soap', 'LoopyLagoon', 'OvertheCity', 'Troposphere', 'SwitchtubeVista', 'PotentialforAnything', 'AGiftFromtheStars', 'CollapsingSkyline', 'StrawberryOrchard', 'MidnightSpire', 'paint', 'SeeingisBelieving', 'Dropzle', 'RoseGarden', 'Treehive', 'TheSqueeze', 'CoresakenCity', 'BlueberryBay',
                    'SleepingUnderStars', 'SquaretheCircle', 'FrostedFragments', 'DeepBlue', 'Vertigo', 'EATGIRL', 'HoneyzipInc', 'Templeofathousandskies', 'InFiltration', 'Supernautica', 'FifthDemension', 'MidnightMonsoon', 'LowGBotany', 'TheTower', 'PufferfishTransportationCo', 'SeaofSoup', 'ConstructionConundrum', 'PointlessMachines', 'RaspberryRoots', 
                    'SandsofTime', 'JellyfishSanctum', 'ToggleTheory', 'SlimeTime', 'Superstructure', 'LethalLaserLaboratory', 'StarryRuins', 'TheTowerXVI', 'StarlightStation', 'TectonicTrenches', 'GoldenDawn', 'DuskCity', 'ForestRush', 'Synapse', 'Undergrowth', 'LostWoods', 'AttackoftheClone', 'TheLab', "BelatedValentinesDay", 'ThinkingWithPortals', 'BeeBerserk', "JavasCrypt", 'RightsideDownCavern', 'CalloftheVoid', 'RaindropsonRoses', 'MangoMesa', 
                    'AChangeinDirection', 'FlyingBattery', 'SkylineUsurper', 'ChromaticComplex', 'FortressFall', 'TheCoreProblem', 'Psychokinetic', "GardenofKhutara", 'OvergrownLinn', 'Clockwork', 'PlasmaReactor', 'NarrowHollow', 'Hydroshock', 'FloatingPoint', 'StormRunner', 'SummitDown-Side', 'TimeTrouble', 'SubwayNeon', 'Hypnagogia', 'MeaninglessContraptions', 'EtherealAscension', 'Vinculum', 'GoldenAlleyway', 'MosaicGarden', 'SystemInvalidMapException', 'LunarPagoda', 'CaperCavortion', 'MadelineTheBubble', 'Polaris', 'StarfruitSupernova', 
-                   'Superluminary', 'BellyoftheBeast', 'WorldAbyss', 'CycleMadnessBSide', 'StellarOdyssey', '74', 'Shattersong', 'Ivory', 'summit', 'PinballPurgatory', 'CaveoftheCrimsonSky', 'TheSolarExpress', 'FlipsideCliffside', 'LavaLayer', 'kevintechspam', 'Nelumbo', 'DriftingDeep', 'FracturedIridescence', 'PassionfruitPantheon']}
+                   'Superluminary', 'BellyoftheBeast', 'WorldAbyss', 'CycleMadnessBSide', 'StellarOdyssey', '74', 'Shattersong', 'Ivory', 'summit', 'PinballPurgatory', 'CaveoftheCrimsonSky', 'TheSolarExpress', 'FlipsideCliffside', 'LavaLayer', 'kevintechspam', 'Nelumbo', 'DriftingDeep', 'FracturedIridescence', 'PassionfruitPantheon'}
 
 
 class ExcludeDifficulties(OptionSet):
@@ -161,6 +167,7 @@ class SilverSanity(Choice):
     Advanced[Green/Yellow/Red]
     Expert[Green/Yellow/Red]
     Grandmaster[Green/Yellow/Red/CrackedRed]
+    Grandmaster Plus One Green
     """
     display_name = "Silver Sanity"
     option_none = 0
@@ -185,20 +192,112 @@ class SilverSanity(Choice):
 
 
 @dataclass
-class SJAPOptions(PerGameCommonOptions):
+class StrawberryJamOptions(PerGameCommonOptions):
+    goal_condition: GoalCondition
+    goal_heartside: GoalHeartside
+    required_hearts_for_heartside : RequiredHeartsForHeartside
+    randomize_required_hearts: RandomizeRequiredHearts
     lobbies: Lobbies
     exclude_maps: ExcludeMaps
     exclude_difficulties: ExcludeDifficulties
+    map_rando: MapRando
+    randomize_vanilla_items: RandomizeVanillaItems
     cat_sanity: CatSanity
+    gym_sanity: GymSanity
+    silver_sanity: SilverSanity
 
 
 option_groups = [
     OptionGroup(
-        "Gameplay Options",
-        [],
+        "Goal Condition",
+        [GoalCondition, GoalHeartside, RequiredHeartsForHeartside, RandomizeRequiredHearts],
     ),
     OptionGroup(
-        "Aesthetic Options",
-        [],
+        "Maps",
+        [Lobbies, ExcludeMaps, ExcludeDifficulties, MapRando],
     ),
+    OptionGroup(
+        "Item and Locations",
+        [RandomizeVanillaItems, CatSanity, GymSanity, SilverSanity]
+    )
 ]
+
+
+@dataclass
+class MapData:
+    SID: str
+    name: str
+    difficulty: int
+    difficulty_name: str
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        sid = data["Map File Name"]
+        name = data["Stylized Map Name"]
+        difficulty = data["Difficulty"]
+        difficulty_name = data["Difficulty Color"]
+        return cls(sid, name, difficulty, difficulty_name)
+
+
+class OptionsHelper:
+    difficulty_color_to_int = {
+        "Beginner Green": 1,
+        "Beginner Yellow": 2,
+        "Beginner Red": 3,
+        "Intermediate Green": 4,
+        "Intermediate Yellow": 5,
+        "Intermediate Red": 6,
+        "Advanced Green": 7,
+        "Advanced Yellow": 8,
+        "Advanced Red": 9,
+        "Expert Green": 10,
+        "Expert Yellow": 11,
+        "Expert Red": 12,
+        "Grandmaster Green": 13,
+        "Grandmaster Yellow": 14,
+        "Grandmaster Red": 15,
+        "Grandmaster Cracked Red": 16,
+        "Grandmaster Plus One Green": 17
+    }
+
+    lobby_to_difficulty_colors = {
+        "Beginner": [1, 2, 3],
+        "Intermediate": [4, 5, 6],
+        "Advanced": [7, 8, 9],
+        "Expert": [10, 11, 12],
+        "Grandmaster": [13, 14, 15, 16],
+    }
+
+    def __init__(self):
+        self.enabled_maps = []
+        map_ids_path = Path(__file__).parent.resolve() / "data" / "SJArchiepalgoTables - MapIDs.pickle"
+        with open(map_ids_path, 'rb') as file:
+            self.map_data = pickle.load(file)
+        self.map_data = {i: MapData.from_dict(j) for i, j in self.map_data.items()}
+
+    def check_options(self, world: StrawberryJamWorld):
+        options = world.options
+
+    def get_enabled_maps(self, world: StrawberryJamWorld):
+        if len(self.enabled_maps) > 0:
+            return self.enabled_maps
+        options : StrawberryJamOptions= world.options
+        # first, remove lobby based classification
+        options.lobbies.
+
+
+
+
+"""        map_ids_path = Path(__file__).parent.resolve() / "data" / "SJArchiepalgoTables - MapIDs.pickle"
+        with open(map_ids_path, 'rb') as file:
+            map_data = pickle.load(file)
+    
+    enabled_maps = []
+    def check_options(self, world: StrawberryJamWorld):
+        options = world.options
+    
+    
+    def get_enabled_maps(self, world: StrawberryJamWorld):
+        if len(enabled_maps) > 0:
+            return enabled_maps
+        options = world.options"""

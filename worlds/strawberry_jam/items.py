@@ -1,8 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
-from pickle import load
+import pickle
 from dataclasses import dataclass
+from pathlib import Path
 
 if TYPE_CHECKING:
     from .world import StrawberryJamWorld
@@ -27,29 +28,44 @@ class StrawberryJamItem(Item):
 @dataclass(frozen=True)
 class StrawberryJamItemData:
     name: str
-    item_type: str
+    item_group: str
     world_id: int
     classification: ItemClassification
 
+    @classmethod
+    def from_dict(cls, data: dict) -> StrawberryJamItemData:
+        classification_str = data["classification"]
+        match classification_str:
+            case "Progression":
+                classification = ItemClassification.progression
+            case "Useful":
+                classification = ItemClassification.useful
+            case "Filler":
+                classification = ItemClassification.filler
+            case "Trap":
+                classification = ItemClassification.trap
+            case _:
+                classification = ItemClassification.filler
+
+        return StrawberryJamItemData(name=data["Item Enum Name"], item_group=data["Item Group"], world_id = data["APWorld Item ID"], classification=classification)
 
 
-# Ontop of our regular itempool, our world must be able to create arbitrary amounts of filler as requested by core.
-# To do this, it must define a function called world.get_filler_item_name(), which we will define in world.py later.
-# For now, let's make a function that returns the name of a random filler item here in items.py.
+
+
+item_file = Path(__file__).parent.resolve() / "data" / "SJArchipelago_Tables - ItemIDs.pickle"
+with open(item_file, "rb") as f:
+    item_table = pickle.load(f)
+item_table = {i: StrawberryJamItemData.from_dict(j) for i, j in item_table.items()}
+
+
+
 def get_random_filler_item_name(world: StrawberryJamWorld) -> str:
-    # APQuest has an option called "trap_chance".
-    # This is the percentage chance that each filler item is a Math Trap instead of a Confetti Cannon.
-    # For this purpose, we need to use a random generator.
-
-    # IMPORTANT: Whenever you need to use a random generator, you must use world.random.
-    # This ensures that generating with the same generator seed twice yields the same output.
-    # DO NOT use a bare random object from Python's built-in random module.
-    if world.random.randint(0, 99) < world.options.trap_chance:
-        return "Math Trap"
-    return "Confetti Cannon"
+    if world.random.randint(0, 99) < 50:
+        return "Meow"
+    return "Mrrrp"
 
 
-def create_item_with_correct_classification(world: StrawberryJamWorld, name: str) -> APQuestItem:
+def create_item_with_correct_classification(world: StrawberryJamWorld, name: str) -> StrawberryJamItem:
     # Our world class must have a create_item() function that can create any of our items by name at any time.
     # So, we make this helper function that creates the item by name with the correct classification.
     # Note: This function's content could just be the contents of world.create_item in world.py directly,
@@ -61,7 +77,7 @@ def create_item_with_correct_classification(world: StrawberryJamWorld, name: str
     if name == "Health Upgrade" and world.options.hard_mode:
         classification = ItemClassification.progression
 
-    return APQuestItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
+    return StrawberryJamItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
 
 
 # With those two helper functions defined, let's now get to actually creating and submitting our itempool.
