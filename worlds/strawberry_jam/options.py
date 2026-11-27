@@ -81,30 +81,30 @@ class ExcludeMaps(OptionSet):
     The maps that you would like to exclude from the world. Enter any map name here.
     """
     display_name = "Excluded Maps"
-    valid_keys = {'ForestPath', 'Driveway', 'AzureCaverns', 'CassetteCliffs', 'Soap', 'LoopyLagoon', 'OvertheCity', 'Troposphere', 'SwitchtubeVista', 'PotentialforAnything', 'AGiftFromtheStars', 'CollapsingSkyline', 'StrawberryOrchard', 'MidnightSpire', 'paint', 'SeeingisBelieving', 'Dropzle', 'RoseGarden', 'Treehive', 'TheSqueeze', 'CoresakenCity', 'BlueberryBay',
-                   'SleepingUnderStars', 'SquaretheCircle', 'FrostedFragments', 'DeepBlue', 'Vertigo', 'EATGIRL', 'HoneyzipInc', 'Templeofathousandskies', 'InFiltration', 'Supernautica', 'FifthDemension', 'MidnightMonsoon', 'LowGBotany', 'TheTower', 'PufferfishTransportationCo', 'SeaofSoup', 'ConstructionConundrum', 'PointlessMachines', 'RaspberryRoots', 
-                   'SandsofTime', 'JellyfishSanctum', 'ToggleTheory', 'SlimeTime', 'Superstructure', 'LethalLaserLaboratory', 'StarryRuins', 'TheTowerXVI', 'StarlightStation', 'TectonicTrenches', 'GoldenDawn', 'DuskCity', 'ForestRush', 'Synapse', 'Undergrowth', 'LostWoods', 'AttackoftheClone', 'TheLab', "BelatedValentinesDay", 'ThinkingWithPortals', 'BeeBerserk', "JavasCrypt", 'RightsideDownCavern', 'CalloftheVoid', 'RaindropsonRoses', 'MangoMesa', 
-                   'AChangeinDirection', 'FlyingBattery', 'SkylineUsurper', 'ChromaticComplex', 'FortressFall', 'TheCoreProblem', 'Psychokinetic', "GardenofKhutara", 'OvergrownLinn', 'Clockwork', 'PlasmaReactor', 'NarrowHollow', 'Hydroshock', 'FloatingPoint', 'StormRunner', 'SummitDown-Side', 'TimeTrouble', 'SubwayNeon', 'Hypnagogia', 'MeaninglessContraptions', 'EtherealAscension', 'Vinculum', 'GoldenAlleyway', 'MosaicGarden', 'SystemInvalidMapException', 'LunarPagoda', 'CaperCavortion', 'MadelineTheBubble', 'Polaris', 'StarfruitSupernova', 
-                   'Superluminary', 'BellyoftheBeast', 'WorldAbyss', 'CycleMadnessBSide', 'StellarOdyssey', '74', 'Shattersong', 'Ivory', 'summit', 'PinballPurgatory', 'CaveoftheCrimsonSky', 'TheSolarExpress', 'FlipsideCliffside', 'LavaLayer', 'kevintechspam', 'Nelumbo', 'DriftingDeep', 'FracturedIridescence', 'PassionfruitPantheon'}
-
+    valid_keys = {'Beginner Gym', 'Forest Path', "If my 'driveway' almost did you in...", 'Azure Caverns', 'Cassette Cliffs', 'Soap', 'Loopy Lagoon', 'Over the City', 'Troposphere', 'Switchtube Vista', 'Potential for Anything', 'A Gift From the Stars', 'Collapsing Skyline', 'Strawberry Orchard', 'Midnight Spire', 'paint', 'Seeing is Believing', 'Dropzle', 'Rose Garden', 'Treehive', 'The Squeeze', 'Coresaken City', 'Blueberry Bay',
+                  'Intermediate Gym', 'Sleeping Under Stars', 'Square the Circle', 'Frosted Fragments', 'Deep Blue', 'Vertigo', 'EAT GIRL', 'Honeyzip Inc.', 'Temple of a thousand skies', 'In Filtration', 'Supernautica', 'Fifth Demension', 'Midnight Monsoon', 'Low-G Botany', 'The Tower', 'Pufferfish Transportation Co.', 'Sea of Soup', 'Construction Conundrum', 'Pointless Machines', 'Raspberry Roots',
+                  'Advanced Gym', 'Sands of Time', 'Jellyfish Sanctum', 'Toggle Theory', 'Slime Time', 'Superstructure', 'Lethal Laser Laboratory', 'Starry Ruins', 'The Tower (XVI)', 'Starlight Station', 'Tectonic Trenches', 'Golden Dawn', 'Dusk City', 'Forest Rush', 'Synapse', 'Undergrowth', 'Lost Woods', 'Attack of the Clone', 'The Lab', "Belated Valentine's Day", 'Thinking With Portals', 'Bee Berserk', "Java's Crypt", 'Rightside-Down Cavern', 'Call of the Void', 'Raindrops on Roses', 'Mango Mesa',
+                  'Expert Gym', 'A Change in Direction', 'Flying Battery', 'Skyline Usurper', 'Chromatic Complex', 'Fortress Fall', 'The Core Problem', 'Psychokinetic', "Garden of Khu'tara", 'Overgrown Linn', 'Clockwork', 'Plasma Reactor', 'Narrow Hollow', 'Hydroshock', 'Floating Point', 'Storm Runner', 'Summit Down-Side', 'Time Trouble', 'Subway Neon', 'Hypnagogia', 'Meaningless Contraptions', 'Ethereal Ascension', 'Vinculum', 'Golden Alleyway', 'Mosaic Garden', 'System.InvalidMapException', 'Lunar Pagoda', 'Caper Cavortion', 'Madeline: The Bubble', 'Polaris', 'Starfruit Supernova',
+                  'Grandmaster Gym', 'Superluminary', 'Belly of the Beast', 'World Abyss', 'Cycle Madness B-Side', 'Stellar Odyssey', '74', 'Shattersong', 'Ivory', 'summit', 'Pinball Purgatory', 'Cave of the Crimson Sky', 'The Solar Express', 'Flipside Cliffside', 'Lava Layer', 'kevintechspam.bin', 'Nelumbo', 'Drifting Deep', 'Fractured Iridescence', 'Passionfruit Pantheon'}
 
 class ExcludeDifficulties(OptionSet):
     """
     The difficulties that you would like to exclude from the world.
     This is meant to give you more granular control if you would like to play, for example, some of GM lobby, but not GM cracked reds.
+    If you would like to exclude heartsides, exclude them individually in Exclude Maps.
     Options are:
-    Beginner[Green/Yellow/Red]
-    Intermediate[Green/Yellow/Red]
-    Advanced[Green/Yellow/Red]
-    Expert[Green/Yellow/Red]
-    Grandmaster[Green/Yellow/Red/CrackedRed]
+    Beginner [Green/Yellow/Red]
+    Intermediate [Green/Yellow/Red]
+    Advanced [Green/Yellow/Red]
+    Expert [Green/Yellow/Red]
+    Grandmaster [Green/Yellow/Red/CrackedRed]
     """
     display_name = "Exclude Difficulties"
-    valid_keys = {"BeginnerGreen", "BeginnerYellow", "BeginnerRed",
-                  "IntermediateGreen", "IntermediateYellow", "IntermediateRed",
-                  "AdvancedGreen", "AdvancedYellow", "AdvancedRed",
-                  "ExpertGreen", "ExpertYellow", "ExpertRed",
-                  "GrandmasterGreen", "GrandmasterYellow", "GrandmasterRed", "GrandmasterCrackedRed"}
+    valid_keys = {"Beginner Green", "Beginner Yellow", "Beginner Red",
+                  "Intermediate Green", "Intermediate Yellow", "Intermediate Red",
+                  "Advanced Green", "Advanced Yellow", "Advanced Red",
+                  "Expert Green", "Expert Yellow", "Expert Red",
+                  "Grandmaster Green", "Grandmaster Yellow", "Grandmaster Red", "Grandmaster Cracked Red"}
     default = frozenset()
     valid_keys_casefold = False
 
@@ -116,6 +116,7 @@ class RandomizeVanillaItems(Toggle):
     Generation note: This HIGHLY increases the chance of sphere 1 being heavily restricted, which means generation fails can occur.
     Only use this setting if you are okay with that risk.
     """
+    display_name = "Randomize Vanilla Items"
 
 
 class MapRando(Choice):
@@ -167,7 +168,6 @@ class SilverSanity(Choice):
     Advanced[Green/Yellow/Red]
     Expert[Green/Yellow/Red]
     Grandmaster[Green/Yellow/Red/CrackedRed]
-    Grandmaster Plus One Green
     """
     display_name = "Silver Sanity"
     option_none = 0
@@ -187,7 +187,6 @@ class SilverSanity(Choice):
     option_grandmaster_yellow = 14
     option_grandmaster_red = 15
     option_grandmaster_cracked_red = 16
-    option_grandmaster_plus_one_green = 17
     default = option_none
 
 
@@ -221,83 +220,3 @@ option_groups = [
         [RandomizeVanillaItems, CatSanity, GymSanity, SilverSanity]
     )
 ]
-
-
-@dataclass
-class MapData:
-    SID: str
-    name: str
-    difficulty: int
-    difficulty_name: str
-
-    @classmethod
-    def from_dict(cls, data: dict):
-        sid = data["Map File Name"]
-        name = data["Stylized Map Name"]
-        difficulty = data["Difficulty"]
-        difficulty_name = data["Difficulty Color"]
-        return cls(sid, name, difficulty, difficulty_name)
-
-
-class OptionsHelper:
-    difficulty_color_to_int = {
-        "Beginner Green": 1,
-        "Beginner Yellow": 2,
-        "Beginner Red": 3,
-        "Intermediate Green": 4,
-        "Intermediate Yellow": 5,
-        "Intermediate Red": 6,
-        "Advanced Green": 7,
-        "Advanced Yellow": 8,
-        "Advanced Red": 9,
-        "Expert Green": 10,
-        "Expert Yellow": 11,
-        "Expert Red": 12,
-        "Grandmaster Green": 13,
-        "Grandmaster Yellow": 14,
-        "Grandmaster Red": 15,
-        "Grandmaster Cracked Red": 16,
-        "Grandmaster Plus One Green": 17
-    }
-
-    lobby_to_difficulty_colors = {
-        "Beginner": [1, 2, 3],
-        "Intermediate": [4, 5, 6],
-        "Advanced": [7, 8, 9],
-        "Expert": [10, 11, 12],
-        "Grandmaster": [13, 14, 15, 16],
-    }
-
-    def __init__(self):
-        self.enabled_maps = []
-        map_ids_path = Path(__file__).parent.resolve() / "data" / "SJArchiepalgoTables - MapIDs.pickle"
-        with open(map_ids_path, 'rb') as file:
-            self.map_data = pickle.load(file)
-        self.map_data = {i: MapData.from_dict(j) for i, j in self.map_data.items()}
-
-    def check_options(self, world: StrawberryJamWorld):
-        options = world.options
-
-    def get_enabled_maps(self, world: StrawberryJamWorld):
-        if len(self.enabled_maps) > 0:
-            return self.enabled_maps
-        options : StrawberryJamOptions= world.options
-        # first, remove lobby based classification
-        options.lobbies.
-
-
-
-
-"""        map_ids_path = Path(__file__).parent.resolve() / "data" / "SJArchiepalgoTables - MapIDs.pickle"
-        with open(map_ids_path, 'rb') as file:
-            map_data = pickle.load(file)
-    
-    enabled_maps = []
-    def check_options(self, world: StrawberryJamWorld):
-        options = world.options
-    
-    
-    def get_enabled_maps(self, world: StrawberryJamWorld):
-        if len(enabled_maps) > 0:
-            return enabled_maps
-        options = world.options"""
