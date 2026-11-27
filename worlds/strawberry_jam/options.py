@@ -17,17 +17,15 @@ class GoalCondition(Choice):
 
 class GoalHeartside(Choice):
     """
-    Specify the goal heartside. Only affects anything if you have goal condition set to 'Heartside'.
+    Specify the goal heartside. Only affects anything if you have goal condition set to 'Heartside' or 'AllHeartsides'.
     If you set this to a heartside from a lobby that has 0 playable maps, generation will fail.
     """
     display_name = "Goal Heartside"
-
     option_blueberry_bay = 0
     option_raspberry_roots = 1
     option_mango_mesa = 2
     option_starfruit_supernova = 3
     option_passionfruit_pantheon = 4
-
     default = option_mango_mesa
 
 
